@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <resultMap id="UserResult" type="com.example.demo.model.User">
+        <id column="id" property="id" javaType="Integer"/>
+        <result column="name" property="name" javaType="String"/>
+    </resultMap>
+
+    <select id="getUsers" resultMap="UserResult" parameterType="java.util.Map">
+        select * from ap_user
+        where 1=1
+        <if test="userName !=null">and user_name=#{userName}</if>
+        <if test="passWord !=null">and pass_word=#{passWord}</if>
+    </select>
+
+    <insert id="insert" parameterType="java.util.Map">
+        insert into ap_user
+        (name, phone, age, gender, user_name, range_name, pass_word, remark)
+        values
+        (#{name}, #{phone}, #{age}, #{gender},#{rangeName}, #{userName}, #{passWord}, #{remark})
+    </insert>
+
+    <update id="update" parameterType="java.util.Map">
+        update ap_user
+        <set>
+            <if test="name !=null">name=#{name},</if>
+            <if test="age !=null">age=#{age},</if>
+            <if test="gender !=null">gender=#{gender},</if>
+            <if test="range !=null">range=#{range},</if>
+            <if test="userName !=null">user_name=#{user_name},</if>
+            <if test="passWord !=null">pass_word=#{pass_word},</if>
+            <if test="remark !=null">remark=#{remark},</if>
+            <if test="partArray !=null">part_array=#{part_array},</if>
+            <if test="phone !=null">phone=#{phone}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from ap_user
+        where id=#{id}
+    </delete>
+
+</mapper>
